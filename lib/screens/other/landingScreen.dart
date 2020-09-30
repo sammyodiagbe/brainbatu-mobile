@@ -27,7 +27,20 @@ class LandingScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.symmetric(vertical: 30),
+                        child: Text(
+                          'Brainbatu',
+                          style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 40,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
                         width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.of(context).push(
@@ -52,6 +65,7 @@ class LandingScreen extends StatelessWidget {
                       SizedBox(height: 20),
                       Container(
                         width: double.infinity,
+                        padding: EdgeInsets.symmetric(horizontal: 20),
                         child: RaisedButton(
                           onPressed: () {
                             Navigator.of(context).push(
