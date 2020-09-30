@@ -20,7 +20,10 @@ class AuthService {
         '''
         }),
       );
-      print('gotten data  ${backendCall.body}');
+      if (backendCall.statusCode == 200) {
+      } else {
+        print('Something went wrong');
+      }
     } catch (err) {
       print(err);
     }
