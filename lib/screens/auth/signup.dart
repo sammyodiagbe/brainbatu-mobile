@@ -15,7 +15,8 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       backgroundColor: Color(0xff0064FF),
       body: SafeArea(
-        child: Container(
+        child: SingleChildScrollView(
+          child: Container(
             height: screenHeight,
             width: screenWidth,
             padding: EdgeInsets.symmetric(horizontal: 30),
@@ -32,13 +33,20 @@ class _SignupScreenState extends State<SignupScreen> {
                         child: Text(
                           'Create account',
                           style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 24,
                               fontFamily: "Poppins",
                               color: Colors.white),
                         ),
                       ),
                       SizedBox(height: 30),
                       TextFormField(
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return '* Please enter username';
+                          }
+                          return null;
+                        },
+                        style: TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           hintText: 'Username',
                           prefixIcon:
@@ -49,49 +57,84 @@ class _SignupScreenState extends State<SignupScreen> {
                             borderSide: BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(8),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.transparent),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           hintStyle: TextStyle(
                               color: Colors.white, fontFamily: 'Poppins'),
                           focusColor: Color(0xff6b88ff),
-                          focusedBorder: InputBorder.none,
-                          isDense: true,
-                          contentPadding: EdgeInsets.symmetric(vertical: 20),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Email',
-                          prefixIcon:
-                              Icon(Icons.mail_outline, color: Colors.white),
-                          fillColor: Color(0x52A2CBFE),
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
+                          focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          hintStyle: TextStyle(
-                              color: Colors.white, fontFamily: 'Poppins'),
-                          focusedBorder: InputBorder.none,
                           isDense: true,
                           contentPadding: EdgeInsets.symmetric(vertical: 20),
+                          errorStyle: TextStyle(color: Colors.white),
                         ),
                       ),
                       SizedBox(height: 20),
                       TextFormField(
+                        validator: (value) {
+                          if (value.trim().isEmpty) {
+                            return '* Please enter email';
+                          }
+                          return null;
+                        },
+                        style: TextStyle(color: Colors.white),
+                        decoration: InputDecoration(
+                            hintText: 'Email',
+                            prefixIcon:
+                                Icon(Icons.mail_outline, color: Colors.white),
+                            fillColor: Color(0x52A2CBFE),
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintStyle: TextStyle(
+                                color: Colors.white, fontFamily: 'Poppins'),
+                            focusedBorder: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 20),
+                            errorStyle: TextStyle(color: Colors.white)),
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        validator: (value) {
+                          if (value.trim().isEmpty) {
+                            return '* Please enter password';
+                          }
+                          return null;
+                        },
+                        style: TextStyle(color: Colors.white),
                         obscureText: true,
                         decoration: InputDecoration(
-                          hintText: 'Password',
-                          prefixIcon: Icon(Icons.lock, color: Colors.white),
-                          fillColor: Color(0x52A2CBFE),
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          hintStyle: TextStyle(
-                              color: Colors.white, fontFamily: 'Poppins'),
-                          focusedBorder: InputBorder.none,
-                        ),
+                            hintText: 'Password',
+                            prefixIcon: Icon(Icons.lock, color: Colors.white),
+                            fillColor: Color(0x52A2CBFE),
+                            filled: true,
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            hintStyle: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Poppins',
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            errorStyle: TextStyle(color: Colors.white)),
                       ),
                       SizedBox(height: 20),
                       Container(
@@ -103,7 +146,21 @@ class _SignupScreenState extends State<SignupScreen> {
                             style: TextStyle(
                                 color: Colors.white, fontFamily: "Poppins"),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (_formKey.currentState.validate()) {
+                              Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Valid form'),
+                                ),
+                              );
+                            } else {
+                              Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Invaid data'),
+                                ),
+                              );
+                            }
+                          },
                           color: Color(0xff0CB058),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -117,7 +174,9 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 )
               ],
-            )),
+            ),
+          ),
+        ),
       ),
     );
   }

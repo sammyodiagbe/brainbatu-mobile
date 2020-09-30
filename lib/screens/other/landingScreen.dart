@@ -52,7 +52,11 @@ class LandingScreen extends StatelessWidget {
                           child: Text(
                             'Login',
                             style: TextStyle(
-                                color: Colors.white, fontFamily: 'Poppins'),
+                              color: Colors.white,
+                              fontFamily: 'Poppins',
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                           elevation: 3.0,
                           padding: EdgeInsets.all(20),
@@ -75,7 +79,10 @@ class LandingScreen extends StatelessWidget {
                           },
                           child: Text(
                             'signup',
-                            style: TextStyle(fontFamily: 'Poppins'),
+                            style: TextStyle(
+                                fontFamily: 'Poppins',
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold),
                           ),
                           elevation: 3.0,
                           padding: EdgeInsets.all(20),
