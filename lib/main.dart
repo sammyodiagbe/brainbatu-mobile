@@ -7,6 +7,7 @@ void main() {
       title: 'brainbatu',
       theme: ThemeData(
         primaryColor: Color(0xff6b88ff),
+        fontFamily: 'Poppins',
       ),
       debugShowCheckedModeBanner: false,
       home: LandingScreen(),

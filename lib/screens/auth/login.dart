@@ -12,6 +12,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
+      backgroundColor: Color(0xff0064FF),
       body: Builder(
         builder: (context) => SafeArea(
           child: Container(
@@ -20,15 +21,21 @@ class _LoginScreenState extends State<LoginScreen> {
               padding: EdgeInsets.symmetric(horizontal: 30),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Form(
                     key: _formKey,
                     child: Column(
                       children: [
-                        Text(
-                          'Login',
-                          style:
-                              TextStyle(fontSize: 30, fontFamily: "openSans"),
+                        Container(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                                fontSize: 30,
+                                fontFamily: "Poppins",
+                                color: Colors.white),
+                          ),
                         ),
                         SizedBox(height: 30),
                         TextFormField(
@@ -40,15 +47,23 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           decoration: InputDecoration(
                             hintText: 'Username',
-                            prefixIcon: Icon(Icons.person),
-                            fillColor: Color(0xffe1e2e1),
+                            prefixIcon: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                            ),
+                            fillColor: Color(0x52A2CBFE),
                             filled: true,
-                            enabledBorder: InputBorder.none,
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8),
+                                borderSide: BorderSide(
+                                  color: Colors.transparent,
+                                )),
                             focusedBorder: InputBorder.none,
                             errorBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.red),
                             ),
-                            hintStyle: TextStyle(),
+                            hintStyle: TextStyle(
+                                color: Colors.white, fontFamily: 'Poppins'),
                             isDense: true,
                             contentPadding: EdgeInsets.symmetric(vertical: 20),
                           ),
@@ -56,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         SizedBox(height: 20),
                         TextFormField(
                           obscureText: true,
+                          style: TextStyle(color: Colors.white),
                           validator: (value) {
                             if (value.isEmpty) {
                               return 'Value is required';
@@ -64,15 +80,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           },
                           decoration: InputDecoration(
                             hintText: 'Password',
-                            prefixIcon: Icon(Icons.lock),
-                            hintStyle: TextStyle(),
-                            enabledBorder: InputBorder.none,
+                            prefixIcon: Icon(
+                              Icons.lock,
+                              color: Colors.white,
+                            ),
+                            hintStyle: TextStyle(
+                                color: Colors.white, fontFamily: 'Poppins'),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(color: Colors.transparent),
+                            ),
                             errorBorder: UnderlineInputBorder(
                               borderSide:
                                   BorderSide(color: Colors.red, width: 1),
                             ),
                             filled: true,
-                            fillColor: Color(0xffe1e2e1),
+                            fillColor: Color(0x52A2CBFE),
                             isDense: true,
                             contentPadding: EdgeInsets.symmetric(vertical: 20),
                           ),
@@ -83,8 +106,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: RaisedButton(
                             padding: EdgeInsets.symmetric(vertical: 20),
                             child: Text(
-                              'let\'s go',
-                              style: TextStyle(color: Colors.white),
+                              'Login',
+                              style: TextStyle(
+                                  color: Colors.white, fontFamily: 'Poppins'),
                             ),
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
@@ -101,13 +125,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                 );
                               }
                             },
-                            color: Color(0xff6b88ff),
+                            color: Color(0xff0CB058),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30),
                               side: BorderSide(
                                 color: Colors.transparent,
                               ),
                             ),
+                          ),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            'forgot password',
+                            style: TextStyle(
+                                color: Colors.white, fontFamily: "Poppins"),
                           ),
                         )
                       ],
