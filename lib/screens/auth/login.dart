@@ -1,3 +1,4 @@
+import 'package:brainbatu/services/authService.dart';
 import "package:flutter/material.dart";
 
 class LoginScreen extends StatefulWidget {
@@ -7,6 +8,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
+  String _username;
+  String _password;
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -40,6 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 30),
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _username = value;
+                              });
+                            },
                             validator: (value) {
                               if (value.trim().isEmpty) {
                                 return '* Value is required';
@@ -81,6 +89,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: 20),
                           TextFormField(
+                            onChanged: (value) {
+                              setState(() {
+                                _password = value;
+                              });
+                            },
                             obscureText: true,
                             style: TextStyle(color: Colors.white),
                             validator: (value) {
@@ -127,11 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  Scaffold.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text('Valid form'),
-                                    ),
-                                  );
+                                  AuthService.login(_username, _password);
                                 } else {
                                   Scaffold.of(context).showSnackBar(
                                     SnackBar(
