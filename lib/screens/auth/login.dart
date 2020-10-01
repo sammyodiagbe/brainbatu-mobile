@@ -1,5 +1,7 @@
 import 'package:brainbatu/services/authService.dart';
+import "package:http/http.dart" as http;
 import "package:flutter/material.dart";
+import 'dart:convert';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -10,6 +12,30 @@ class _LoginScreenState extends State<LoginScreen> {
   final _formKey = GlobalKey<FormState>();
   String _username;
   String _password;
+  bool _isLoggingin = false;
+
+  signin(String username, String password) async {
+    var _logUserIn = await http.post(
+      'http://192.168.43.50:9000/graphql',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8'
+      },
+      body: jsonEncode(
+        <String, String>{
+          'query': '''
+          mutation {
+            login(userData: {username: "$username", password: "$password"} )  {
+              token
+            }
+          }
+        '''
+        },
+      ),
+    );
+
+    if (_logUserIn.statusCode == 200) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -134,13 +160,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: RaisedButton(
                               padding: EdgeInsets.symmetric(vertical: 20),
                               child: Text(
-                                'Login',
+                                _isLoggingin ? 'Loginig in' : 'Login',
                                 style: TextStyle(
                                     color: Colors.white, fontFamily: 'Poppins'),
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  AuthService.login(_username, _password);
+                                  dynamic user =
+                                      AuthService.login(_username, _password);
+                                  print(user);
                                 } else {
                                   Scaffold.of(context).showSnackBar(
                                     SnackBar(
