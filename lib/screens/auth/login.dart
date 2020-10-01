@@ -164,11 +164,26 @@ class _LoginScreenState extends State<LoginScreen> {
                                 style: TextStyle(
                                     color: Colors.white, fontFamily: 'Poppins'),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState.validate()) {
-                                  dynamic user =
-                                      AuthService.login(_username, _password);
-                                  print(user);
+                                  AuthService _auth = AuthService();
+                                  dynamic jsonResponse =
+                                      await _auth.login(_username, _password);
+                                  if (jsonResponse['errors'] != null) {
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        backgroundColor: Colors.redAccent[300],
+                                        content: Text(
+                                          '${jsonResponse["errors"][0]["message"]}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    print(jsonResponse);
+                                  }
                                 } else {
                                   Scaffold.of(context).showSnackBar(
                                     SnackBar(
