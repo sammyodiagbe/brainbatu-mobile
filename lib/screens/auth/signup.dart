@@ -208,12 +208,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                 } else {
                                   print('no response');
                                 }
-                              } else {
-                                Scaffold.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text('Invaid data'),
-                                  ),
-                                );
                               }
                             },
                             color: Color(0xff0CB058),
