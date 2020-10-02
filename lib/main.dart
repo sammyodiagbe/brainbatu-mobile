@@ -1,16 +1,23 @@
-import 'package:brainbatu/screens/other/landingScreen.dart';
+import 'package:brainbatu/screens/other/authState.dart';
+import 'package:brainbatu/services/authService.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(
-    MaterialApp(
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  String token = sharedPreferences.getString('token');
+  runApp(ChangeNotifierProvider<AuthService>(
+    child: MaterialApp(
       title: 'brainbatu',
       theme: ThemeData(
-        primaryColor: Color(0xff6b88ff),
+        primaryColor: Color(0xffffffff),
         fontFamily: 'Poppins',
       ),
       debugShowCheckedModeBanner: false,
-      home: LandingScreen(),
+      home: AuthState(token),
     ),
-  );
+    create: (context) => AuthService(),
+  ));
 }
