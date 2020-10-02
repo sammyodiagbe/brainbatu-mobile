@@ -35,8 +35,46 @@ class Home extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: Text('Home screen'),
+      body: SingleChildScrollView(
+        child: Container(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Text(
+                    'Live batugrounds',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Container(
+                  width: double.infinity,
+                  child: RaisedButton(
+                    elevation: 3,
+                    onPressed: () {},
+                    padding: EdgeInsets.symmetric(vertical: 15),
+                    child: Text(
+                      'Find a batu',
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                    color: Color(0xff0CB058),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text(
+                    'Your favourites',
+                    style: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ],
+            )),
       ),
     );
   }
