@@ -15,7 +15,7 @@ class Home extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 10),
+            padding: EdgeInsets.symmetric(horizontal: 8),
             child: Center(
               child: Text(
                 'Bal: \$500',
@@ -30,7 +30,7 @@ class Home extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              backgroundColor: Colors.grey,
+              backgroundColor: Color(0xffefefef),
             ),
           )
         ],
@@ -39,6 +39,7 @@ class Home extends StatelessWidget {
         child: Container(
             padding: EdgeInsets.all(10),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
@@ -46,6 +47,48 @@ class Home extends StatelessWidget {
                   child: Text(
                     'Live batugrounds',
                     style: TextStyle(fontSize: 18),
+                  ),
+                ),
+                // live batugrounds
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: SizedBox(
+                    height: 250,
+                    child: Container(
+                      padding: EdgeInsets.fromLTRB(30, 10, 10, 10),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          Container(
+                            height: 100,
+                            width: 250,
+                            color: Colors.white,
+                            child: Center(
+                              child: Text('hello there'),
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Container(
+                            height: 100,
+                            width: 200,
+                            color: Colors.white,
+                            child: Center(
+                              child: Text('hello there'),
+                            ),
+                          ),
+                          SizedBox(width: 15),
+                          Container(
+                            height: 100,
+                            width: 200,
+                            color: Colors.white,
+                            child: Center(
+                              child: Text('hello there'),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -73,6 +116,62 @@ class Home extends StatelessWidget {
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
+
+                // grid list of the user's favourite
+                Flexible(
+                  fit: FlexFit.loose,
+                  child: SizedBox(
+                    height: 500,
+                    child: GridView.count(
+                        shrinkWrap: true,
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        children: List.generate(
+                          10,
+                          (index) {
+                            return Card(
+                              color: Colors.white,
+                              elevation: 2,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Stack(
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: Color(0xffefefef),
+                                        radius: 35,
+                                      ),
+                                      Positioned(
+                                          right: 0,
+                                          top: 15,
+                                          child: Container(
+                                            height: 15,
+                                            width: 15,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: Color(0xff0CB058),
+                                            ),
+                                          ))
+                                    ],
+                                  ),
+                                  Container(
+                                      alignment: Alignment.center,
+                                      padding:
+                                          EdgeInsets.symmetric(vertical: 15),
+                                      child: Text('Username'))
+                                ],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            );
+                          },
+                        )),
+                  ),
+                )
               ],
             )),
       ),
