@@ -1,3 +1,4 @@
+import 'package:brainbatu/screens/main/activePeers.dart';
 import "package:flutter/material.dart";
 
 class Home extends StatelessWidget {
@@ -96,7 +97,13 @@ class Home extends StatelessWidget {
                   width: double.infinity,
                   child: RaisedButton(
                     elevation: 3,
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => ActivePeersScreen(),
+                        ),
+                      );
+                    },
                     padding: EdgeInsets.symmetric(vertical: 15),
                     child: Text(
                       'Find a batu',
@@ -121,10 +128,11 @@ class Home extends StatelessWidget {
                 Flexible(
                   fit: FlexFit.loose,
                   child: SizedBox(
-                    height: 500,
+                    height: 200,
                     child: GridView.count(
+                        scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
-                        crossAxisCount: 2,
+                        crossAxisCount: 1,
                         crossAxisSpacing: 10,
                         mainAxisSpacing: 10,
                         children: List.generate(

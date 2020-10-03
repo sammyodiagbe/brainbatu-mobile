@@ -14,6 +14,7 @@ void main() async {
       theme: ThemeData(
         primaryColor: Color(0xffffffff),
         fontFamily: 'Poppins',
+        accentColor: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,
       home: AuthState(token),
