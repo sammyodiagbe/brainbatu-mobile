@@ -13,7 +13,7 @@ void main() async {
       title: 'brainbatu',
       theme: ThemeData(
         primaryColor: Color(0xffffffff),
-        fontFamily: 'Montseratt',
+        fontFamily: 'PT Sans',
         accentColor: Colors.blue,
       ),
       debugShowCheckedModeBanner: false,

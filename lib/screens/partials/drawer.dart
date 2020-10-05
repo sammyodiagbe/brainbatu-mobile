@@ -1,9 +1,13 @@
+import 'package:brainbatu/screens/main/activePeers.dart';
+import 'package:brainbatu/screens/main/home.dart';
+import 'package:brainbatu/screens/main/overview.dart';
+import 'package:brainbatu/screens/main/profile.dart';
 import "package:flutter/material.dart";
 
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _textStyle = TextStyle(fontSize: 18);
+    final _textStyle = TextStyle(fontSize: 16);
     final _iconColor = Color(0xff888888);
     final double _iconSize = 30;
     return Drawer(
@@ -15,7 +19,14 @@ class CustomDrawer extends StatelessWidget {
             margin: EdgeInsets.only(bottom: 20),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => Home(),
+                ),
+              );
+            },
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -29,7 +40,14 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ActivePeersScreen(),
+                ),
+              );
+            },
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -44,7 +62,14 @@ class CustomDrawer extends StatelessWidget {
             ),
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => ProfileScreen(),
+                ),
+              );
+            },
             child: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -74,7 +99,12 @@ class CustomDrawer extends StatelessWidget {
           ),
           InkWell(
             onTap: () {
-              print('hello');
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => AccountOverview(),
+                ),
+              );
             },
             child: Container(
               width: double.infinity,
