@@ -1,3 +1,4 @@
+import 'package:brainbatu/screens/partials/appbar.dart';
 import "package:flutter/material.dart";
 
 class ActivePeersScreen extends StatefulWidget {
@@ -9,36 +10,9 @@ class _ActivePeersScreenState extends State<ActivePeersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 1.0,
-        title: Text(
-          'Brainbatu',
-          style: TextStyle(
-            fontFamily: "Poppins",
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            child: Center(
-              child: Text(
-                'Bal: \$500',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Color(0xff0CB058),
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              backgroundColor: Color(0xffefefef),
-            ),
-          )
-        ],
+      appBar: BaseAppBar(
+        appBar: AppBar(),
+        title: Text('hellow'),
       ),
       body: ListView(
         padding: EdgeInsets.all(20),
@@ -71,16 +45,17 @@ class _ActivePeersScreenState extends State<ActivePeersScreen> {
                                 radius: 35,
                               ),
                               Positioned(
-                                  right: 0,
-                                  top: 15,
-                                  child: Container(
-                                    height: 15,
-                                    width: 15,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      color: Color(0xff0CB058),
-                                    ),
-                                  ))
+                                right: 0,
+                                top: 15,
+                                child: Container(
+                                  height: 15,
+                                  width: 15,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Color(0xff0CB058),
+                                  ),
+                                ),
+                              )
                             ],
                           ),
                           Container(
