@@ -20,7 +20,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         'Brainbatu',
         style: TextStyle(
-          fontFamily: "Poppins",
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -10,13 +10,32 @@ class CustomDrawer extends StatelessWidget {
     final _textStyle = TextStyle(fontSize: 16);
     final _iconColor = Color(0xff888888);
     final double _iconSize = 30;
+    final Color _textColor = Color(0xfff8f8f8);
+    final TextStyle _headerTextStyle =
+        TextStyle(color: _textColor, fontSize: 18);
     return Drawer(
       child: ListView(
         children: [
           Container(
+            alignment: Alignment.center,
             height: 180,
             color: Color(0xff0CB058),
             margin: EdgeInsets.only(bottom: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor: Color(0xffefefef),
+                  radius: 40,
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Hi, spongebob',
+                  style: _headerTextStyle,
+                )
+              ],
+            ),
           ),
           InkWell(
             onTap: () {
