@@ -1,124 +1,107 @@
-import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
 import 'dart:async';
+import 'dart:convert';
 
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+import 'package:brainbatu/models/user.dart';
+import 'package:brainbatu/services/prefs.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import "package:brainbatu/services/appUrl.dart";
 
-class AuthService extends ChangeNotifier {
-  bool _authenticated = false;
-  bool isLoggingin = false;
-  bool isCreatingAccount = false;
-  String _loginError = '';
-  String _signupError = '';
-  bool _accountCreated = false;
+enum Status {
+  NotLoggedIn,
+  NotRegistered,
+  LoggedIn,
+  Registered,
+  Authenticating,
+  Registering,
+  Loggedout
+}
 
-  String get loginMessage => _loginError;
-  String get signupErrorMessage => _signupError;
-  bool get accountCreated => _accountCreated;
-  bool get userIsAuthenticated => _authenticated;
+class AuthProvider extends ChangeNotifier {
+  Status _loggedInStatus = Status.NotLoggedIn;
+  Status _registeringStatus = Status.NotRegistered;
 
-  final String endpoint = 'http://192.168.43.50:9000/graphql';
-  Future<dynamic> login(String username, String password) async {
-    print('logging user in');
-    try {
-      var backendCall = await http.post(
-        endpoint,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: jsonEncode(
-          <String, String>{
-            'query': '''
-          mutation {
-            login(userData: {username: "$username", password: "$password"} )  {
-              token
-              user {
-                _id
-                username
-                email
-                avatarUrl
-                wallet
-                gameWallet
-                verified
-              }
-            }
-          }
-        '''
-          },
-        ),
-      );
-      print('let us check this');
-      var decodedJson = jsonDecode(backendCall.body);
-      if (decodedJson['errors'] != null) {
-        String _message = decodedJson['errors'][0]['message'];
-        _loginError = _message;
-        _authenticated = false;
+  Status get loggedInStatus => _loggedInStatus;
+  Status get registeredStatus => _registeringStatus;
+
+  // logging the user in
+  Future<Map<String, dynamic>> login(String username, String password) async {
+    var result;
+
+    final Map<String, dynamic> loginData = {
+      'username': username,
+      'password': password,
+    };
+
+    _loggedInStatus = Status.Authenticating;
+    notifyListeners();
+
+    Response response = await post(AppUrl.login,
+        body: json.encode(loginData),
+        headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> responseData = json.decode(response.body);
+
+      bool authenticated = responseData['authenticated'];
+      if (authenticated) {
+        User user = User.fromJson(responseData['user']);
+        String token = responseData['token'];
+        Prefs.saveUser(user);
+        Prefs.setToken(token);
+        _loggedInStatus = Status.LoggedIn;
+        notifyListeners();
+
+        result = {'status': true, 'message': 'Successful', 'user': user};
       } else {
-        dynamic data = decodedJson['data']['login'];
-        String token = data['token'];
-        print(token);
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.setString('token', token);
-        _authenticated = true;
-        _loginError = null;
+        _loggedInStatus = Status.NotLoggedIn;
+        notifyListeners();
+        result = {
+          'status': false,
+          'message': json.decode(response.body)['message']
+        };
       }
-      return true;
-    } catch (err) {
-      print(err);
-    }
-    return false;
-  }
-
-  Future<dynamic> signup(String username, String email, String password) async {
-    try {
-      var backendCall = await http.post(
-        endpoint,
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8'
-        },
-        body: jsonEncode(
-          <String, String>{
-            'query': '''
-              mutation {
-                createAccount(userData: {username: "$username", password: "$password", email: "$email"}) {
-                  response
-                }
-              }
-            '''
-          },
-        ),
-      );
-      var decodedJson = jsonDecode(backendCall.body);
-      print(decodedJson);
-      if (decodedJson['errors'] != null) {
-        String _message = decodedJson['errors'][0]['message'];
-        _signupError = _message;
-        _authenticated = false;
-        _accountCreated = false;
-      } else {
-        _accountCreated = true;
-      }
-    } catch (err) {
-      print('error we got --- ${err.toString()}');
-    }
-    return null;
-  }
-
-  Future<String> checkAuth() async {
-    try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      String token = sharedPreferences.getString('token');
-      if (token == null) {
-        _authenticated = false;
-      } else {
-        _authenticated = true;
-      }
+    } else {
+      _loggedInStatus = Status.NotLoggedIn;
       notifyListeners();
-      return 'success';
-    } catch (err) {}
-    return null;
+      result = {
+        'status': false,
+        'message': json.decode(response.body)['message']
+      };
+    }
+    return result;
+  }
+
+  // signing the user up
+  Future<Map<String, dynamic>> createAccount(
+      String username, String email, String password) async {
+    var result;
+
+    final Map<String, dynamic> signupData = {
+      'username': username,
+      'password': password,
+      'email': email
+    };
+
+    _registeringStatus = Status.Registering;
+    notifyListeners();
+
+    Response response = await post(AppUrl.register,
+        body: json.encode(signupData),
+        headers: {'Content-Type': 'application/json'});
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> responseData = json.decode(response.body);
+      bool successful = responseData['successful'];
+      var message = responseData['message'];
+      if (successful) {
+        _registeringStatus = Status.Registered;
+        result = {'status': true, 'message': message};
+      } else {
+        result = {'status': false, 'message': message};
+      }
+    }
+    return result;
   }
 }

@@ -32,7 +32,6 @@ class LandingScreen extends StatelessWidget {
                         child: Text(
                           'Brainbatu',
                           style: TextStyle(
-                              fontFamily: 'Poppins',
                               fontSize: 40,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),
@@ -53,7 +52,6 @@ class LandingScreen extends StatelessWidget {
                             'Login',
                             style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Poppins',
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             ),
@@ -80,9 +78,7 @@ class LandingScreen extends StatelessWidget {
                           child: Text(
                             'signup',
                             style: TextStyle(
-                                fontFamily: 'Poppins',
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold),
+                                fontSize: 16, fontWeight: FontWeight.bold),
                           ),
                           elevation: 3.0,
                           padding: EdgeInsets.all(20),

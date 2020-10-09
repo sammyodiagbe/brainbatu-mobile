@@ -1,4 +1,6 @@
+import 'package:brainbatu/models/user.dart';
 import 'package:brainbatu/services/authService.dart';
+import 'package:brainbatu/services/userModel.dart';
 import "package:flutter/material.dart";
 
 import 'package:provider/provider.dart';
@@ -20,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xff0064FF),
-      body: Consumer<AuthService>(
+      body: Consumer<AuthProvider>(
         builder: (context, provider, child) {
           return SafeArea(
             child: SingleChildScrollView(
@@ -146,20 +148,21 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 onPressed: () async {
                                   if (_formKey.currentState.validate()) {
-                                    AuthService _auth =
-                                        Provider.of<AuthService>(context,
-                                            listen: false);
-                                    dynamic jsonResponse =
-                                        await _auth.login(_username, _password);
-                                    if (Provider.of<AuthService>(context,
-                                                listen: false)
-                                            .loginMessage ==
-                                        null) {
-                                      Scaffold.of(context).showSnackBar(
-                                        SnackBar(
-                                            content: Text(_auth.loginMessage)),
-                                      );
-                                    }
+                                    final Future<Map<String, dynamic>>
+                                        successfulMessage =
+                                        provider.login(_username, _password);
+                                    successfulMessage.then((response) {
+                                      if (response['status']) {
+                                        User user = response['user'];
+                                        print(user);
+                                        Provider.of<UserProvider>(context)
+                                            .setUser(user);
+                                        Navigator.pushReplacementNamed(
+                                            context, '/home');
+                                      } else {
+                                        print(response['message']);
+                                      }
+                                    });
                                   }
                                 },
                                 color: Color(0xff0CB058),

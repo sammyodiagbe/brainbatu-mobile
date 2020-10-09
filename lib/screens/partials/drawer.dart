@@ -2,7 +2,10 @@ import 'package:brainbatu/screens/main/activePeers.dart';
 import 'package:brainbatu/screens/main/home.dart';
 import 'package:brainbatu/screens/main/overview.dart';
 import 'package:brainbatu/screens/main/profile.dart';
+import 'package:brainbatu/services/authService.dart';
+import 'package:brainbatu/services/userModel.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 class CustomDrawer extends StatelessWidget {
   @override
@@ -12,31 +15,34 @@ class CustomDrawer extends StatelessWidget {
     final double _iconSize = 30;
     final Color _textColor = Color(0xfff8f8f8);
     final TextStyle _headerTextStyle =
-        TextStyle(color: _textColor, fontSize: 18);
+        TextStyle(color: _textColor, fontSize: 20);
     return Drawer(
       child: ListView(
         children: [
-          Container(
-            alignment: Alignment.center,
-            height: 180,
-            color: Color(0xff0CB058),
-            margin: EdgeInsets.only(bottom: 20),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Color(0xffefefef),
-                  radius: 40,
-                ),
-                SizedBox(height: 10),
-                Text(
-                  'Hi, spongebob',
-                  style: _headerTextStyle,
-                )
-              ],
-            ),
-          ),
+          Consumer<UserProvider>(builder: (context, provider, child) {
+            return Container(
+              alignment: Alignment.center,
+              height: 180,
+              color: Color(0xff0CB058),
+              margin: EdgeInsets.only(bottom: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CircleAvatar(
+                    backgroundColor: Color(0xffefefef),
+                    radius: 40,
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    'Hi, ${provider.user.username}',
+                    textAlign: TextAlign.center,
+                    style: _headerTextStyle,
+                  )
+                ],
+              ),
+            );
+          }),
           InkWell(
             onTap: () {
               Navigator.of(context).pop();

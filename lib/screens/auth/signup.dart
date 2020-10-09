@@ -18,7 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return Consumer<AuthService>(
+    return Consumer<AuthProvider>(
       builder: (context, provider, child) => Scaffold(
         backgroundColor: Color(0xff0064FF),
         body: Builder(
@@ -179,28 +179,17 @@ class _SignupScreenState extends State<SignupScreen> {
                                 style: TextStyle(
                                     color: Colors.white, fontFamily: "Poppins"),
                               ),
-                              onPressed: () async {
-                                print('hello world');
-                                if (_formKey.currentState.validate()) {
-                                  AuthService _auth = provider;
-                                  dynamic jsonResponse = await _auth.signup(
-                                      _username, _email, _password);
-                                  if (_auth.accountCreated) {
-                                    Scaffold.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                            'Account created successfully, please login'),
-                                      ),
-                                    );
+                              onPressed: () {
+                                final Future<Map<String, dynamic>> backend =
+                                    provider.createAccount(
+                                        _username, _email, _password);
+                                backend.then((response) {
+                                  if (response['status']) {
+                                    print(response['message']);
                                   } else {
-                                    Scaffold.of(context).showSnackBar(
-                                      SnackBar(
-                                        content:
-                                            Text('${_auth.signupErrorMessage}'),
-                                      ),
-                                    );
+                                    print(response['message']);
                                   }
-                                }
+                                });
                               },
                               color: Color(0xff0CB058),
                               shape: RoundedRectangleBorder(

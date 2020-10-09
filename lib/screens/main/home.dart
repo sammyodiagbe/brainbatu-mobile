@@ -1,7 +1,10 @@
 import 'package:brainbatu/screens/main/overview.dart';
 import 'package:brainbatu/screens/partials/appbar.dart';
 import 'package:brainbatu/screens/partials/drawer.dart';
+import 'package:brainbatu/services/authService.dart';
+import 'package:brainbatu/services/userModel.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -22,7 +25,7 @@ class Home extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(bottom: 20),
                   child: Text(
-                    'Live batugrounds',
+                    'Live batugrounds ',
                     style: TextStyle(fontSize: 18),
                   ),
                 ),
@@ -37,12 +40,15 @@ class Home extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         children: [
-                          Container(
-                            height: 100,
-                            width: 250,
-                            color: Colors.white,
-                            child: Center(
-                              child: Text('hello there'),
+                          Consumer<UserProvider>(
+                            builder: (context, provider, child) => Container(
+                              height: 100,
+                              width: 250,
+                              color: Colors.white,
+                              child: Center(
+                                child: Text(
+                                    'hello there ${provider.user.username}'),
+                              ),
                             ),
                           ),
                           SizedBox(width: 15),
