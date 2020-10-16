@@ -1,6 +1,4 @@
-import 'package:flutter/foundation.dart';
-
-class User extends ChangeNotifier {
+class User {
   final String username;
   final String email;
   final int wallet;

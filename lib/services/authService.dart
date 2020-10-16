@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'dart:io';
 import 'package:brainbatu/models/user.dart';
 import 'package:brainbatu/services/prefs.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import "package:brainbatu/services/appUrl.dart";
+import 'package:shared_preferences/shared_preferences.dart';
 
 enum Status {
   NotLoggedIn,
@@ -18,9 +16,10 @@ enum Status {
   Loggedout
 }
 
-class AuthProvider extends ChangeNotifier {
+class AuthProvider {
   Status _loggedInStatus = Status.NotLoggedIn;
   Status _registeringStatus = Status.NotRegistered;
+  String username;
 
   Status get loggedInStatus => _loggedInStatus;
   Status get registeredStatus => _registeringStatus;
@@ -35,7 +34,6 @@ class AuthProvider extends ChangeNotifier {
     };
 
     _loggedInStatus = Status.Authenticating;
-    notifyListeners();
 
     Response response = await post(AppUrl.login,
         body: json.encode(loginData),
@@ -51,12 +49,11 @@ class AuthProvider extends ChangeNotifier {
         Prefs.saveUser(user);
         Prefs.setToken(token);
         _loggedInStatus = Status.LoggedIn;
-        notifyListeners();
 
         result = {'status': true, 'message': 'Successful', 'user': user};
       } else {
         _loggedInStatus = Status.NotLoggedIn;
-        notifyListeners();
+
         result = {
           'status': false,
           'message': json.decode(response.body)['message']
@@ -64,7 +61,7 @@ class AuthProvider extends ChangeNotifier {
       }
     } else {
       _loggedInStatus = Status.NotLoggedIn;
-      notifyListeners();
+
       result = {
         'status': false,
         'message': json.decode(response.body)['message']
@@ -85,7 +82,6 @@ class AuthProvider extends ChangeNotifier {
     };
 
     _registeringStatus = Status.Registering;
-    notifyListeners();
 
     Response response = await post(AppUrl.register,
         body: json.encode(signupData),
@@ -100,6 +96,35 @@ class AuthProvider extends ChangeNotifier {
         result = {'status': true, 'message': message};
       } else {
         result = {'status': false, 'message': message};
+      }
+    }
+    return result;
+  }
+
+  Future<Map<String, dynamic>> verifyAuthUser() async {
+    var result;
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    String token = sharedPreferences.getString('token');
+    Map<String, dynamic> data = {'token': token};
+    if (token == null) {
+      result = {"status": false};
+    } else {
+      Response response = await post(AppUrl.verify,
+          body: json.encode(data),
+          headers: {'Content-Type': 'application/json'});
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseData = json.decode(response.body);
+        print(responseData);
+        if (responseData['successful']) {
+          User user = User.fromJson(responseData['user']);
+          result = {"status": true, "user": user};
+        } else {
+          result = {"status": false};
+          sharedPreferences.remove('token');
+        }
+      } else {
+        result = {"status": false};
       }
     }
     return result;

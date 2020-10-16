@@ -7,21 +7,20 @@ import 'package:brainbatu/services/userModel.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(BrainBatu());
+  AuthProvider authProvider = AuthProvider();
+  Map<String, dynamic> checkAuth = await authProvider.verifyAuthUser();
+  runApp(BrainBatu(appState: checkAuth));
 }
 
 class BrainBatu extends StatelessWidget {
+  final Map<String, dynamic> appState;
+  BrainBatu({this.appState});
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => AuthProvider(),
-        ),
-        ChangeNotifierProvider(create: (context) => UserProvider())
-      ],
+    return ChangeNotifierProvider<UserProvider>(
+      create: (context) => UserProvider(),
       child: MaterialApp(
         title: 'brainbatu',
         theme: ThemeData(
@@ -29,7 +28,7 @@ class BrainBatu extends StatelessWidget {
           fontFamily: 'PTSans',
         ),
         debugShowCheckedModeBanner: false,
-        home: AuthState(),
+        home: AuthState(user: appState['user']),
         routes: {
           '/login': (context) => LoginScreen(),
           '/register': (context) => SignupScreen(),
