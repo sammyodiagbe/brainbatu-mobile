@@ -28,7 +28,12 @@ class BrainBatu extends StatelessWidget {
           fontFamily: 'PTSans',
         ),
         debugShowCheckedModeBanner: false,
-        home: AuthState(user: appState['user']),
+        home: Builder(builder: (context) {
+          if (appState['user'] != null) {
+            Provider.of<UserProvider>(context).setUser(appState['user']);
+          }
+          return AuthState(user: appState['user']);
+        }),
         routes: {
           '/login': (context) => LoginScreen(),
           '/register': (context) => SignupScreen(),

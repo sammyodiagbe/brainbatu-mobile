@@ -146,7 +146,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 successfulMessage.then((response) {
                                   if (response['status']) {
                                     User user = response['user'];
-                                    print(user);
                                     Provider.of<UserProvider>(context)
                                         .setUser(user);
                                     Navigator.pushReplacementNamed(

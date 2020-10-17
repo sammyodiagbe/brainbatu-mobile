@@ -1,5 +1,4 @@
 import 'package:brainbatu/models/user.dart';
-import 'package:brainbatu/screens/main/overview.dart';
 import 'package:brainbatu/screens/partials/appbar.dart';
 import 'package:brainbatu/screens/partials/drawer.dart';
 import 'package:brainbatu/services/userModel.dart';
@@ -7,19 +6,15 @@ import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
 class Home extends StatelessWidget {
-  final User user;
-  Home({this.user});
-
   @override
   Widget build(BuildContext context) {
-    Provider.of<UserProvider>(context, listen: false).setUser(user);
     return Consumer<UserProvider>(
       builder: (context, provider, _) => Scaffold(
         appBar: BaseAppBar(
           title: Text('Home'),
           appBar: AppBar(),
         ),
-        drawer: CustomDrawer(user: user),
+        drawer: CustomDrawer(),
         body: SingleChildScrollView(
           child: Container(
               padding: EdgeInsets.all(10),
@@ -30,7 +25,7 @@ class Home extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: 20),
                     child: Text(
-                      'Live batugrounds ${user.username == null ? "hello" : user.username}',
+                      'Live batugrounds ${provider.user.username}',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
@@ -81,14 +76,7 @@ class Home extends StatelessWidget {
                     width: double.infinity,
                     child: RaisedButton(
                       elevation: 3,
-                      onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(
-                            builder: (context) => AccountOverview(),
-                          ),
-                          ModalRoute.withName("/"),
-                        );
-                      },
+                      onPressed: () {},
                       padding: EdgeInsets.symmetric(vertical: 15),
                       child: Text(
                         'Find a batu',

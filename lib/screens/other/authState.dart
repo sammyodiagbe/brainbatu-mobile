@@ -7,8 +7,9 @@ class AuthState extends StatelessWidget {
   final User user;
 
   AuthState({this.user});
+
   @override
   Widget build(BuildContext context) {
-    return user == null ? LandingScreen() : Home(user: user);
+    return user == null ? LandingScreen() : Home();
   }
 }
