@@ -107,6 +107,7 @@ class AuthProvider {
     String token = sharedPreferences.getString('token');
     Map<String, dynamic> data = {'token': token};
     if (token == null) {
+      print('token doesnt exist');
       result = {"status": false};
     } else {
       Response response = await post(AppUrl.verify,
@@ -127,6 +128,7 @@ class AuthProvider {
         result = {"status": false};
       }
     }
+    print(result);
     return result;
   }
 }

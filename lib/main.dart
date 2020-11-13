@@ -4,6 +4,8 @@ import 'package:brainbatu/screens/main/home.dart';
 import 'package:brainbatu/screens/other/authState.dart';
 import 'package:brainbatu/services/authService.dart';
 import 'package:brainbatu/services/userModel.dart';
+import 'package:brainbatu/socket/peerBatuSocketManager.dart';
+import 'package:brainbatu/socket/socketManager.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
@@ -19,13 +21,22 @@ class BrainBatu extends StatelessWidget {
   BrainBatu({this.appState});
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<UserProvider>(
-      create: (context) => UserProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserProvider>(
+            create: (context) => UserProvider()),
+        Provider<SocketManager>(
+          create: (context) => SocketManager(),
+        ),
+        Provider<PeerSocketManager>(
+          create: (context) => PeerSocketManager(),
+        )
+      ],
       child: MaterialApp(
         title: 'brainbatu',
         theme: ThemeData(
           primaryColor: Color(0xffffffff),
-          fontFamily: 'PTSans',
+          fontFamily: 'Fira Sans',
         ),
         debugShowCheckedModeBanner: false,
         home: Builder(builder: (context) {

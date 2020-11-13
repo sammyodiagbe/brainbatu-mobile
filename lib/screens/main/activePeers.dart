@@ -1,5 +1,9 @@
+import 'package:brainbatu/models/user.dart';
 import 'package:brainbatu/screens/partials/appbar.dart';
+import 'package:brainbatu/services/userModel.dart';
+import 'package:brainbatu/socket/peerBatuSocketManager.dart';
 import "package:flutter/material.dart";
+import 'package:provider/provider.dart';
 
 class ActivePeersScreen extends StatefulWidget {
   @override
@@ -7,6 +11,14 @@ class ActivePeersScreen extends StatefulWidget {
 }
 
 class _ActivePeersScreenState extends State<ActivePeersScreen> {
+  @override
+  void initState() {
+    User user = Provider.of<UserProvider>(context, listen: false).user;
+    Provider.of<PeerSocketManager>(context, listen: false)
+        .initializePeerSocket();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

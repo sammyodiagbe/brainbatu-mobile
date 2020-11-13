@@ -1,7 +1,7 @@
 class AppUrl {
   static const String liveBaseUrl = '';
-  static const String localBaseUrl = 'http://10.0.2.2:9000/api/v1';
-  static const String localBaseUri = 'http://10.0.2.2:9000';
+  static const String localBaseUri = 'https://028e6a4ac11f.ngrok.io';
+  static const String localBaseUrl = '$localBaseUri/api/v1';
 
   static const String baseUrl = localBaseUrl;
   static const String login = baseUrl + '/auth/login';

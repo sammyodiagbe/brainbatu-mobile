@@ -2,10 +2,24 @@ import 'package:brainbatu/models/user.dart';
 import 'package:brainbatu/screens/partials/appbar.dart';
 import 'package:brainbatu/screens/partials/drawer.dart';
 import 'package:brainbatu/services/userModel.dart';
+import 'package:brainbatu/socket/socketManager.dart';
 import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    User user = Provider.of<UserProvider>(context, listen: false).user;
+    Provider.of<SocketManager>(context, listen: false)
+        .initializeUserSocket(user.username);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<UserProvider>(
@@ -45,7 +59,14 @@ class Home extends StatelessWidget {
                               width: 250,
                               color: Colors.white,
                               child: Center(
-                                child: Text('hello there'),
+                                child: RaisedButton(
+                                  onPressed: () {
+                                    Provider.of<SocketManager>(context,
+                                            listen: false)
+                                        .joinGame('100');
+                                  },
+                                  child: Text('Join 100'),
+                                ),
                               ),
                             ),
                             SizedBox(width: 15),
