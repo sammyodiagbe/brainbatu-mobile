@@ -1,12 +1,13 @@
 import 'package:brainbatu/services/socketServices.dart';
-import "package:socket_io_client/socket_io_client.dart";
+import "package:socket_io_client/socket_io_client.dart" as IO;
 
 class SocketManager {
-  Socket socket;
+  IO.Socket socket;
 
   // initialize and connect the socket
   initializeUserSocket(String username) {
-    socket = io(SocketService.socketServerUri, <String, dynamic>{
+    socket = IO.io(SocketService.peerSocketUri, <String, dynamic>{
+      'forceNew': true,
       'transports': ['websocket'],
       'autoConnect': true,
     });
@@ -28,10 +29,21 @@ class SocketManager {
     // });
   }
 
+  initializePeerSocket() {
+    // print('initializing peer socket');
+    // var namespace = IO.io('${SocketService.peerSocketUri}/peer2peer');
+    // namespace.on('connect', (data) {
+    //   print(namespace);
+    //   print('connected');
+    //   namespace.emit('hello');
+    // });
+    socket.emit('join-p2p');
+  }
+
   joinGame(String liveRoomId) {
     String liveRoomID = 'liveroom:$liveRoomId:users';
     socket.emit('join-room', liveRoomID);
   }
 
-  initializeSocketListener(Socket socket) {}
+  initializeSocketListener(IO.Socket socket) {}
 }

@@ -15,7 +15,7 @@ class _ActivePeersScreenState extends State<ActivePeersScreen> {
   void initState() {
     User user = Provider.of<UserProvider>(context, listen: false).user;
     Provider.of<PeerSocketManager>(context, listen: false)
-        .initializePeerSocket();
+        .initializePeerSocket(user);
     super.initState();
   }
 
@@ -24,7 +24,7 @@ class _ActivePeersScreenState extends State<ActivePeersScreen> {
     return Scaffold(
       appBar: BaseAppBar(
         appBar: AppBar(),
-        title: Text('hellow'),
+        title: Text('Brainbatu'),
       ),
       body: ListView(
         padding: EdgeInsets.all(20),
@@ -34,55 +34,31 @@ class _ActivePeersScreenState extends State<ActivePeersScreen> {
             child: Text('Active peers'),
           ),
           Container(
-              height: 600,
-              margin: EdgeInsets.symmetric(horizontal: 10),
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                children: List.generate(
-                  10,
-                  (index) {
-                    return Card(
-                      color: Colors.white,
-                      elevation: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Stack(
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Color(0xffefefef),
-                                radius: 35,
-                              ),
-                              Positioned(
-                                right: 0,
-                                top: 15,
-                                child: Container(
-                                  height: 15,
-                                  width: 15,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Color(0xff0CB058),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          Container(
-                              alignment: Alignment.center,
-                              padding: EdgeInsets.symmetric(vertical: 15),
-                              child: Text('Username'))
-                        ],
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    );
-                  },
-                ),
-              ))
+            height: 600,
+            margin: EdgeInsets.symmetric(horizontal: 10),
+            child: StreamBuilder(
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  print(snapshot.data);
+                  return ListView.builder(
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: Text(
+                            snapshot.data['active_users'][index]['username']),
+                        title: Text(
+                            snapshot.data['active_users'][index]['socketid']),
+                      );
+                    },
+                    itemCount: snapshot.data['active_users'].length,
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Something broke');
+                }
+                return Text('hello');
+              },
+              stream: Provider.of<PeerSocketManager>(context).activeUsers,
+            ),
+          ),
         ],
       ),
     );

@@ -1,6 +1,6 @@
 class AppUrl {
   static const String liveBaseUrl = '';
-  static const String localBaseUri = 'https://028e6a4ac11f.ngrok.io';
+  static const String localBaseUri = 'http://192.168.43.50:9090';
   static const String localBaseUrl = '$localBaseUri/api/v1';
 
   static const String baseUrl = localBaseUrl;
