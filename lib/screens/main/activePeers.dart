@@ -20,6 +20,20 @@ class _ActivePeersScreenState extends State<ActivePeersScreen> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    Provider.of<PeerSocketManager>(context, listen: false).dispose();
+    super.dispose();
+  }
+
+  @override
+  void deactivate() {
+    // TODO: implement deactivate
+    Provider.of<PeerSocketManager>(context, listen: false).dispose();
+    super.deactivate();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(

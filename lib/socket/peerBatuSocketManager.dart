@@ -7,12 +7,11 @@ import 'package:socket_io_client/socket_io_client.dart';
 class PeerSocketManager {
   Socket socket;
   String userSocketId;
-  StreamController<Map<String, dynamic>> activeUsersController =
-      StreamController<Map<String, dynamic>>();
+  StreamController<Map<String, dynamic>> activeUsersController;
   get activeUsers => activeUsersController.stream;
 
   initializePeerSocket(User user) {
-    print(SocketService.peerSocketUri);
+    activeUsersController = StreamController<Map<String, dynamic>>.broadcast();
     socket = io(SocketService.peerSocketUri, <String, dynamic>{
       'forceNew': true,
       'transports': ['websocket'],
@@ -47,5 +46,10 @@ class PeerSocketManager {
   void setUserUp(data) {
     print('setting things up');
     print(data);
+  }
+
+  void dispose() {
+    activeUsersController.close();
+    socket.close();
   }
 }
